@@ -21,6 +21,17 @@ export const CheckoutWrapper = styled.div`
   grid-template-columns: 1fr 0.7fr;
 `;
 
+export const WrapperCoffeCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const CompleteRequestContainer = styled.div``;
 
 export const ConfirmRequestContainer = styled.div``;
