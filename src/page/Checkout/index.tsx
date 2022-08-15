@@ -7,6 +7,8 @@ import {
   CheckoutWrapper,
   CompleteRequestContainer,
   ConfirmRequestContainer,
+  FieldWrapper,
+  FormContainer,
   Title,
 } from './styles';
 
@@ -29,9 +31,20 @@ export function Checkout() {
               />
             }
           >
-            <form action=''>
-              <Input placeholder='Label' width={434} isOptional />
-            </form>
+            <FormContainer action=''>
+              <Input placeholder='CEP' width={200} />
+              <Input placeholder='Rua' width={560} />
+              <FieldWrapper>
+                <Input placeholder='Número' width={200} />
+                <Input placeholder='Complemento' width={348} isOptional />
+              </FieldWrapper>
+
+              <FieldWrapper>
+                <Input placeholder='Bairro' width={200} />
+                <Input placeholder='Cidade' width={276} />
+                <Input placeholder='UF' width={60} />
+              </FieldWrapper>
+            </FormContainer>
           </CoffeCard>
         </CompleteRequestContainer>
         <ConfirmRequestContainer>

@@ -24,3 +24,15 @@ export const CheckoutWrapper = styled.div`
 export const CompleteRequestContainer = styled.div``;
 
 export const ConfirmRequestContainer = styled.div``;
+
+export const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  gap: 16px;
+`;
+
+export const FieldWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+`;
