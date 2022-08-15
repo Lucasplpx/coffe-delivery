@@ -5,6 +5,7 @@ export const BannerContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   background: url('./coffe_home.svg');
   background-repeat: no-repeat, repeat;
+  background-size: cover;
   height: 588px;
   padding: 0 10rem;
 `;
