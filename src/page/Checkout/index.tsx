@@ -6,7 +6,9 @@ import {
   Money,
 } from 'phosphor-react';
 import { useTheme } from 'styled-components';
+import { ButtonTrash } from '../../components/ButtonTrash';
 import { CoffeCard } from '../../components/CoffeCard';
+import { Counter } from '../../components/Counter';
 import { Input } from '../../components/Input';
 import { SelectPayment } from '../../components/SelectPayment';
 import {
@@ -87,6 +89,8 @@ export function Checkout() {
         </CompleteRequestContainer>
         <ConfirmRequestContainer>
           <Title>Cafés selecionados</Title>
+          <Counter>{1}</Counter>
+          <ButtonTrash />
         </ConfirmRequestContainer>
       </CheckoutWrapper>
     </CheckoutContainer>
