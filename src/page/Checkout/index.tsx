@@ -6,17 +6,22 @@ import {
   Money,
 } from 'phosphor-react';
 import { useTheme } from 'styled-components';
-import { ButtonTrash } from '../../components/ButtonTrash';
+import { Carrinho } from '../../components/Carrinho';
 import { CoffeCard } from '../../components/CoffeCard';
-import { Counter } from '../../components/Counter';
 import { Input } from '../../components/Input';
 import { SelectPayment } from '../../components/SelectPayment';
+
+import americanoIcon from '../../assets/img/americano.png';
+import latteIcon from '../../assets/img/latte.png';
+
 import {
   ButtonsContainer,
   CheckoutContainer,
   CheckoutWrapper,
+  CoffeCardWrapper,
   CompleteRequestContainer,
   ConfirmRequestContainer,
+  Divider,
   FieldWrapper,
   FormContainer,
   Title,
@@ -89,8 +94,15 @@ export function Checkout() {
         </CompleteRequestContainer>
         <ConfirmRequestContainer>
           <Title>Cafés selecionados</Title>
-          <Counter>{1}</Counter>
-          <ButtonTrash />
+          <CoffeCardWrapper>
+            <Carrinho
+              title='Expresso Tradicional'
+              price={9.91}
+              icon={americanoIcon}
+            />
+            <Divider />
+            <Carrinho title='Latte' price={19.81} icon={latteIcon} />
+          </CoffeCardWrapper>
         </ConfirmRequestContainer>
       </CheckoutWrapper>
     </CheckoutContainer>

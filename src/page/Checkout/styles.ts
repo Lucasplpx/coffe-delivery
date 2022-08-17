@@ -47,3 +47,23 @@ export const FieldWrapper = styled.div`
   display: flex;
   gap: 12px;
 `;
+
+export const CoffeCardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+
+  padding: 40px;
+
+  border-radius: 6px 44px;
+
+  background: ${({ theme }) => theme['base-card']};
+`;
+
+export const Divider = styled.div`
+  width: 368px;
+  background: ${({ theme }) => theme['base-button']};
+
+  border: 1px solid ${({ theme }) => theme['base-button']};
+`;
