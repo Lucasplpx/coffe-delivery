@@ -6,11 +6,17 @@ interface CounterProps {
   children: ReactNode;
   onClickMinus?: () => void;
   onClickPlus?: () => void;
+  size?: number;
 }
 
-export function Counter({ onClickMinus, onClickPlus, children }: CounterProps) {
+export function Counter({
+  onClickMinus,
+  onClickPlus,
+  size,
+  children,
+}: CounterProps) {
   return (
-    <CounterContainer>
+    <CounterContainer size={size}>
       <ButtonWrapper onClick={onClickMinus}>
         <Minus size={14} weight='bold' />
       </ButtonWrapper>

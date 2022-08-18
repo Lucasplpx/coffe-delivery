@@ -96,7 +96,7 @@ export const Counter = styled.div`
   background: ${({ theme }) => theme['base-button']};
 `;
 
-export const IconContainer = styled.div`
+export const IconContainer = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,9 +105,17 @@ export const IconContainer = styled.div`
   height: 2.375rem;
 
   padding: 8px;
+
+  border: 0;
   border-radius: 6px;
 
   background: ${({ theme }) => theme['purple-dark']};
+
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme['purple']};
+  }
 `;
 
 export const TagWrapper = styled.div`

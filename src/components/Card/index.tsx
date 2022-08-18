@@ -1,8 +1,8 @@
 import { ShoppingCart } from 'phosphor-react';
+import { Counter } from '../Counter';
 import {
   ActionBuy,
   CardContainer,
-  Counter,
   IconContainer,
   Tag,
   TagWrapper,
@@ -26,7 +26,6 @@ export function Card({
   price,
   quantity,
 }: CardProps) {
-  const icon = 'cubano';
   return (
     <CardContainer>
       <img src={`./img/${iconCoffe}.png`} alt='' />
@@ -43,11 +42,9 @@ export function Card({
         <p>
           <span>R$</span> {price}
         </p>
-        <Counter>
-          <span>-</span>
-          <span>{quantity}</span>
-          <span>+</span>
-        </Counter>
+
+        <Counter size={2.375}>{quantity}</Counter>
+
         <IconContainer>
           <ShoppingCart size={22} color='white' weight='fill' />
         </IconContainer>

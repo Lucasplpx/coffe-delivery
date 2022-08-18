@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 
-export const CounterContainer = styled.div`
+interface CounterContainerProps {
+  size?: number;
+}
+
+export const CounterContainer = styled.div<CounterContainerProps>`
   padding: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  width: 100%;
+  width: 72px;
   max-width: 4.5rem;
 
-  height: 2rem;
+  height: ${({ size }) => (size ? size : 2)}rem;
   border-radius: 6px;
 
   background: ${({ theme }) => theme['base-button']};
