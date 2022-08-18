@@ -13,9 +13,6 @@ import { CoffeCard } from '../../components/CoffeCard';
 import { Input } from '../../components/Input';
 import { SelectPayment } from '../../components/SelectPayment';
 
-import americanoIcon from '../../assets/img/americano.png';
-import latteIcon from '../../assets/img/latte.png';
-
 import {
   ButtonConfirm,
   ButtonsContainer,
@@ -108,10 +105,10 @@ export function Checkout() {
             <Carrinho
               title='Expresso Tradicional'
               price={9.91}
-              icon={americanoIcon}
+              iconCoffe='americano'
             />
             <Divider />
-            <Carrinho title='Latte' price={19.81} icon={latteIcon} />
+            <Carrinho title='Latte' price={19.81} iconCoffe='latte' />
             <Divider />
             <ResumePayment
               itensTotal={29.71}

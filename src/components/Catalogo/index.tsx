@@ -1,19 +1,25 @@
+import { useCart } from '../../contexts/useCart';
 import { Card } from '../Card';
 import { CatalogoContainer, Wrapper } from './styles';
 
 export function Catalogo() {
+  const { products } = useCart();
+
   return (
     <CatalogoContainer>
       <h1>Nossos cafés</h1>
       <Wrapper>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <div>3</div>
-        <div>4</div>
+        {products.map((product) => (
+          <Card
+            key={product.id}
+            title={product.name}
+            description={product.description}
+            tags={product.tags}
+            iconCoffe={product.iconCoffe}
+            price={product.price}
+            quantity={product.quantity}
+          />
+        ))}
       </Wrapper>
     </CatalogoContainer>
   );

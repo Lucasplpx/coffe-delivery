@@ -5,25 +5,47 @@ import {
   Counter,
   IconContainer,
   Tag,
+  TagWrapper,
   TitleCard,
 } from './styles';
 
-import ExpressoImg from '../../assets/img/expresso.png';
+interface CardProps {
+  title: string;
+  description: string;
+  tags: string[];
+  iconCoffe: string;
+  price: number;
+  quantity: number;
+}
 
-export function Card() {
+export function Card({
+  title,
+  description,
+  tags,
+  iconCoffe,
+  price,
+  quantity,
+}: CardProps) {
+  const icon = 'cubano';
   return (
     <CardContainer>
-      <img src={ExpressoImg} alt='' />
-      <Tag>TRADICIONAL</Tag>
-      <TitleCard>Expresso Tradicional</TitleCard>
-      <p>O tradicional café feito com água quente e grãos moídos</p>
+      <img src={`./img/${iconCoffe}.png`} alt='' />
+
+      <TagWrapper>
+        {tags.map((tagTitle) => (
+          <Tag>{tagTitle}</Tag>
+        ))}
+      </TagWrapper>
+
+      <TitleCard>{title}</TitleCard>
+      <p>{description}</p>
       <ActionBuy>
         <p>
-          <span>R$</span> 9,90
+          <span>R$</span> {price}
         </p>
         <Counter>
           <span>-</span>
-          <span>1</span>
+          <span>{quantity}</span>
           <span>+</span>
         </Counter>
         <IconContainer>

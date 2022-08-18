@@ -109,3 +109,8 @@ export const IconContainer = styled.div`
 
   background: ${({ theme }) => theme['purple-dark']};
 `;
+
+export const TagWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+`;
