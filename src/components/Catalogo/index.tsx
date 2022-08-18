@@ -3,7 +3,7 @@ import { Card } from '../Card';
 import { CatalogoContainer, Wrapper } from './styles';
 
 export function Catalogo() {
-  const { products } = useCart();
+  const { products, handleRemoveProductCart, handleAddProductCart } = useCart();
 
   return (
     <CatalogoContainer>
@@ -18,6 +18,8 @@ export function Catalogo() {
             iconCoffe={product.iconCoffe}
             price={product.price}
             quantity={product.quantity}
+            onClickMinus={() => handleRemoveProductCart(product.id)}
+            onClickPlus={() => handleAddProductCart(product.id)}
           />
         ))}
       </Wrapper>

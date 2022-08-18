@@ -2,8 +2,10 @@ import { CardButton, CountItem, HeaderContainer } from './styles';
 import { MapPin, ShoppingCart } from 'phosphor-react';
 import Logo from '../../assets/img/logo.png';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../contexts/useCart';
 
 export function Header() {
+  const { amountProducts } = useCart();
   const navigate = useNavigate();
 
   function handleGoCheckout() {
@@ -25,7 +27,7 @@ export function Header() {
         <CardButton onClick={handleGoCheckout}>
           <ShoppingCart size={22} weight='fill' />
         </CardButton>
-        <CountItem>3</CountItem>
+        <CountItem>{amountProducts}</CountItem>
       </div>
     </HeaderContainer>
   );

@@ -16,6 +16,9 @@ interface CardProps {
   iconCoffe: string;
   price: number;
   quantity: number;
+
+  onClickMinus: () => void;
+  onClickPlus: () => void;
 }
 
 export function Card({
@@ -25,6 +28,8 @@ export function Card({
   iconCoffe,
   price,
   quantity,
+  onClickMinus,
+  onClickPlus,
 }: CardProps) {
   return (
     <CardContainer>
@@ -32,7 +37,7 @@ export function Card({
 
       <TagWrapper>
         {tags.map((tagTitle) => (
-          <Tag>{tagTitle}</Tag>
+          <Tag key={tagTitle}>{tagTitle}</Tag>
         ))}
       </TagWrapper>
 
@@ -43,7 +48,13 @@ export function Card({
           <span>R$</span> {price}
         </p>
 
-        <Counter size={2.375}>{quantity}</Counter>
+        <Counter
+          size={2.375}
+          onClickMinus={onClickMinus}
+          onClickPlus={onClickPlus}
+        >
+          {quantity}
+        </Counter>
 
         <IconContainer>
           <ShoppingCart size={22} color='white' weight='fill' />
