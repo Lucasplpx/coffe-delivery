@@ -27,6 +27,7 @@ import {
   Title,
   WrapperCoffeCard,
 } from './styles';
+import { ResumePayment } from '../../components/ResumePayment';
 
 export function Checkout() {
   const theme = useTheme();
@@ -102,6 +103,12 @@ export function Checkout() {
             />
             <Divider />
             <Carrinho title='Latte' price={19.81} icon={latteIcon} />
+            <Divider />
+            <ResumePayment
+              itensTotal={29.71}
+              deliveryTotal={3.51}
+              total={33.21}
+            />
           </CoffeCardWrapper>
         </ConfirmRequestContainer>
       </CheckoutWrapper>
