@@ -15,6 +15,7 @@ import americanoIcon from '../../assets/img/americano.png';
 import latteIcon from '../../assets/img/latte.png';
 
 import {
+  ButtonConfirm,
   ButtonsContainer,
   CheckoutContainer,
   CheckoutWrapper,
@@ -109,6 +110,8 @@ export function Checkout() {
               deliveryTotal={3.51}
               total={33.21}
             />
+
+            <ButtonConfirm>Confirmar pedido</ButtonConfirm>
           </CoffeCardWrapper>
         </ConfirmRequestContainer>
       </CheckoutWrapper>

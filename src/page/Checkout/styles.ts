@@ -67,3 +67,27 @@ export const Divider = styled.div`
 
   border: 1px solid ${({ theme }) => theme['base-button']};
 `;
+
+export const ButtonConfirm = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0;
+  padding: 12px 8px;
+  border: 0;
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.white};
+
+  background: ${({ theme }) => theme.yellow};
+  cursor: pointer;
+
+  :focus {
+    box-shadow: 0 0 0 0.125rem ${({ theme }) => theme['yellow-dark']};
+  }
+`;
