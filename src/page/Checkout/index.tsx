@@ -5,6 +5,8 @@ import {
   MapPinLine,
   Money,
 } from 'phosphor-react';
+import { useNavigate } from 'react-router-dom';
+
 import { useTheme } from 'styled-components';
 import { Carrinho } from '../../components/Carrinho';
 import { CoffeCard } from '../../components/CoffeCard';
@@ -32,6 +34,12 @@ import { ResumePayment } from '../../components/ResumePayment';
 
 export function Checkout() {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  function handleGoSuccess() {
+    navigate('/checkout/success');
+  }
+
   return (
     <CheckoutContainer>
       <CheckoutWrapper>
@@ -111,7 +119,9 @@ export function Checkout() {
               total={33.21}
             />
 
-            <ButtonConfirm>Confirmar pedido</ButtonConfirm>
+            <ButtonConfirm onClick={handleGoSuccess}>
+              Confirmar pedido
+            </ButtonConfirm>
           </CoffeCardWrapper>
         </ConfirmRequestContainer>
       </CheckoutWrapper>
