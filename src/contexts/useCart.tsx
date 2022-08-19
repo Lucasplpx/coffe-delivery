@@ -33,8 +33,8 @@ const PRODUCTS_MOCK: Product[] = [
     description: 'O tradicional café feito com água quente e grãos moídos',
     tags: ['Tradicional', 'Gelado'],
     iconCoffe: 'expresso',
-    price: 9.9,
-    priceBase: 9.9,
+    price: 2.75,
+    priceBase: 2.75,
     quantity: 0,
   },
   {
@@ -95,13 +95,17 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
               (product) => product.id === action.payload.id
             );
 
-            draft.products[index].quantity = draft.products[index].quantity + 1;
-            draft.products[index].price = Number(
-              (
-                draft.products[index].price + draft.products[index].priceBase
-              ).toFixed(2)
-            );
+            const product = draft.products[index];
+
+            product.quantity = product.quantity + 1;
             draft.amountProducts = draft.amountProducts + 1;
+
+            if (product.quantity > 1) {
+              product.price = Number(
+                (product.price + product.priceBase).toFixed(2)
+              );
+            }
+
             return draft;
           });
         }
@@ -112,16 +116,19 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
               (product) => product.id === action.payload.id
             );
 
-            if (draft.products[index].quantity > 0) {
-              draft.products[index].quantity =
-                draft.products[index].quantity - 1;
-              draft.products[index].price = Number(
-                (
-                  draft.products[index].price - draft.products[index].priceBase
-                ).toFixed(2)
+            const product = draft.products[index];
+
+            if (product.price > product.priceBase) {
+              product.price = Number(
+                (product.price - product.priceBase).toFixed(2)
               );
+            }
+
+            if (product.quantity > 0) {
+              product.quantity = product.quantity - 1;
               draft.amountProducts = draft.amountProducts - 1;
             }
+
             return draft;
           });
         }
