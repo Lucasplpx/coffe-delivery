@@ -15,15 +15,15 @@ export function ResumePayment({
     <ResumePaymentContainer>
       <ContainerItem>
         <p>Total de itens</p>
-        <span>R$ {itensTotal}</span>
+        <span>R$ {itensTotal.toFixed(2)}</span>
       </ContainerItem>
       <ContainerItem>
         <p>Entrega</p>
-        <span>R$ {deliveryTotal}</span>
+        <span>R$ {deliveryTotal.toFixed(2)}</span>
       </ContainerItem>
       <ContainerItem>
         <p>Total</p>
-        <span>R$ {total}</span>
+        <span>R$ {total.toFixed(2)}</span>
       </ContainerItem>
     </ResumePaymentContainer>
   );

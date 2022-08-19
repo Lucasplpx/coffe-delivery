@@ -1,6 +1,5 @@
 import { Counter } from '../Counter';
 import { ButtonTrash } from '../ButtonTrash';
-import americanoIcon from '../../assets/img/americano.png';
 
 import {
   ActionsContainer,
@@ -14,9 +13,22 @@ interface CarrinhoProps {
   title: string;
   price: number;
   iconCoffe: string;
+  quantity: number;
+
+  onClickMinus: () => void;
+  onClickPlus: () => void;
+  handleRemove: () => void;
 }
 
-export function Carrinho({ title, price, iconCoffe }: CarrinhoProps) {
+export function Carrinho({
+  title,
+  price,
+  iconCoffe,
+  quantity,
+  onClickMinus,
+  onClickPlus,
+  handleRemove,
+}: CarrinhoProps) {
   return (
     <CarrinhoContainer>
       <Info>
@@ -24,8 +36,10 @@ export function Carrinho({ title, price, iconCoffe }: CarrinhoProps) {
         <Details>
           <Title>{title}</Title>
           <ActionsContainer>
-            <Counter>{1}</Counter>
-            <ButtonTrash />
+            <Counter onClickMinus={onClickMinus} onClickPlus={onClickPlus}>
+              {quantity}
+            </Counter>
+            <ButtonTrash onClick={handleRemove} />
           </ActionsContainer>
         </Details>
       </Info>

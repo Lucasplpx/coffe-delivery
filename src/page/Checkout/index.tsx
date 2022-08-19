@@ -7,11 +7,14 @@ import {
 } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 
+import { useCart } from '../../contexts/useCart';
+
 import { useTheme } from 'styled-components';
 import { Carrinho } from '../../components/Carrinho';
 import { CoffeCard } from '../../components/CoffeCard';
 import { Input } from '../../components/Input';
 import { SelectPayment } from '../../components/SelectPayment';
+import { ResumePayment } from '../../components/ResumePayment';
 
 import {
   ButtonConfirm,
@@ -27,11 +30,21 @@ import {
   Title,
   WrapperCoffeCard,
 } from './styles';
-import { ResumePayment } from '../../components/ResumePayment';
 
 export function Checkout() {
+  const {
+    products,
+    totalProducts,
+    handleAddProductCart,
+    handleRemoveProductCart,
+    handleDeleteProductCart,
+  } = useCart();
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const productsFiltered = products.filter((product) => product.quantity > 0);
+
+  const frete = 3.99;
 
   function handleGoSuccess() {
     navigate('/checkout/success');
@@ -102,18 +115,26 @@ export function Checkout() {
         <ConfirmRequestContainer>
           <Title>Cafés selecionados</Title>
           <CoffeCardWrapper>
-            <Carrinho
-              title='Expresso Tradicional'
-              price={9.91}
-              iconCoffe='americano'
-            />
-            <Divider />
-            <Carrinho title='Latte' price={19.81} iconCoffe='latte' />
+            {productsFiltered.map((product) => (
+              <div key={product.id}>
+                <Carrinho
+                  title={product.name}
+                  price={product.price}
+                  iconCoffe={product.iconCoffe}
+                  quantity={product.quantity}
+                  onClickMinus={() => handleRemoveProductCart(product.id)}
+                  onClickPlus={() => handleAddProductCart(product.id)}
+                  handleRemove={() => handleDeleteProductCart(product.id)}
+                />
+                <Divider />
+              </div>
+            ))}
+
             <Divider />
             <ResumePayment
-              itensTotal={29.71}
-              deliveryTotal={3.51}
-              total={33.21}
+              itensTotal={totalProducts}
+              deliveryTotal={frete}
+              total={totalProducts + frete}
             />
 
             <ButtonConfirm onClick={handleGoSuccess}>

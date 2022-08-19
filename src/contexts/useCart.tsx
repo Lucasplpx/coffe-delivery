@@ -16,8 +16,10 @@ interface Product {
 interface CartContextProps {
   products: Product[];
   amountProducts: number;
+  totalProducts: number;
   handleAddProductCart: (id: string) => void;
   handleRemoveProductCart: (id: string) => void;
+  handleDeleteProductCart: (id: string) => void;
 }
 
 const CartContext = createContext({} as CartContextProps);
@@ -89,7 +91,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cartState, dispatch] = useReducer(
     (state: CartState, action: any) => {
       switch (action.type) {
-        case 'ADD_PRODUCT_CART': {
+        case 'ADD_AMOUNT_PRODUCT_CART': {
           return produce(state, (draft) => {
             const index = draft.products.findIndex(
               (product) => product.id === action.payload.id
@@ -106,11 +108,18 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
               );
             }
 
+            const productsFiltered = draft.products.filter(
+              (product) => product.quantity > 0
+            );
+            draft.totalProducts = productsFiltered.reduce((acc, next) => {
+              return acc + next.price;
+            }, 0);
+
             return draft;
           });
         }
 
-        case 'REMOVE_PRODUCT_CART': {
+        case 'REMOVE_AMOUNT_PRODUCT_CART': {
           return produce(state, (draft) => {
             const index = draft.products.findIndex(
               (product) => product.id === action.payload.id
@@ -129,6 +138,31 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
               draft.amountProducts = draft.amountProducts - 1;
             }
 
+            const productsFiltered = draft.products.filter(
+              (product) => product.quantity > 0
+            );
+            draft.totalProducts = productsFiltered.reduce((acc, next) => {
+              return acc + next.price;
+            }, 0);
+
+            return draft;
+          });
+        }
+
+        case 'DELETE_PRODUCT_CART': {
+          return produce(state, (draft) => {
+            const index = draft.products.findIndex(
+              (product) => product.id === action.payload.id
+            );
+
+            const product = draft.products[index];
+
+            draft.amountProducts = draft.amountProducts - product.quantity;
+            product.quantity = 0;
+
+            draft.totalProducts = draft.totalProducts - product.price;
+            product.price = product.priceBase;
+
             return draft;
           });
         }
@@ -145,11 +179,11 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     }
   );
 
-  const { products, amountProducts } = cartState;
+  const { products, amountProducts, totalProducts } = cartState;
 
   function handleAddProductCart(id: string) {
     dispatch({
-      type: 'ADD_PRODUCT_CART',
+      type: 'ADD_AMOUNT_PRODUCT_CART',
       payload: {
         id,
       },
@@ -158,7 +192,16 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
 
   function handleRemoveProductCart(id: string) {
     dispatch({
-      type: 'REMOVE_PRODUCT_CART',
+      type: 'REMOVE_AMOUNT_PRODUCT_CART',
+      payload: {
+        id,
+      },
+    });
+  }
+
+  function handleDeleteProductCart(id: string) {
+    dispatch({
+      type: 'DELETE_PRODUCT_CART',
       payload: {
         id,
       },
@@ -169,9 +212,11 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     <CartContext.Provider
       value={{
         products,
+        totalProducts,
+        amountProducts,
         handleAddProductCart,
         handleRemoveProductCart,
-        amountProducts,
+        handleDeleteProductCart,
       }}
     >
       {children}
