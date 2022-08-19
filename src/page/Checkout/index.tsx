@@ -30,6 +30,25 @@ import {
   Title,
   WrapperCoffeCard,
 } from './styles';
+import { useForm } from 'react-hook-form';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import * as z from 'zod';
+
+const required = 'Campo obrigatório';
+
+const schema = z.object({
+  cep: z.string().min(1, required),
+  rua: z.string().min(1, required),
+  numero: z.string().min(1, required),
+  complemento: z.string(),
+  bairro: z.string().min(1, required),
+  cidade: z.string().min(1, required),
+  uf: z.string().min(2, 'ex: GO').max(2, 'ex: GO'),
+});
+
+type FormValues = z.infer<typeof schema>;
 
 export function Checkout() {
   const {
@@ -41,6 +60,13 @@ export function Checkout() {
   } = useCart();
   const theme = useTheme();
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+  });
 
   const productsFiltered = products.filter((product) => product.quantity > 0);
 
@@ -49,6 +75,12 @@ export function Checkout() {
   function handleGoSuccess() {
     navigate('/checkout/success');
   }
+
+  const onSubmit = handleSubmit((dataForm) => {
+    console.log(dataForm);
+
+    handleGoSuccess();
+  });
 
   return (
     <CheckoutContainer>
@@ -68,18 +100,54 @@ export function Checkout() {
                 />
               }
             >
-              <FormContainer action=''>
-                <Input placeholder='CEP' width={200} />
-                <Input placeholder='Rua' width={560} />
+              <FormContainer>
+                <Input
+                  placeholder='CEP'
+                  width={200}
+                  error={errors.cep}
+                  {...register('cep')}
+                />
+                <Input
+                  placeholder='Rua'
+                  width={560}
+                  error={errors.rua}
+                  {...register('rua')}
+                />
                 <FieldWrapper>
-                  <Input placeholder='Número' width={200} />
-                  <Input placeholder='Complemento' width={348} isOptional />
+                  <Input
+                    placeholder='Número'
+                    width={200}
+                    error={errors.numero}
+                    {...register('numero')}
+                  />
+                  <Input
+                    placeholder='Complemento'
+                    width={348}
+                    isOptional
+                    error={errors.complemento}
+                    {...register('complemento')}
+                  />
                 </FieldWrapper>
 
                 <FieldWrapper>
-                  <Input placeholder='Bairro' width={200} />
-                  <Input placeholder='Cidade' width={276} />
-                  <Input placeholder='UF' width={60} />
+                  <Input
+                    placeholder='Bairro'
+                    width={200}
+                    error={errors.bairro}
+                    {...register('bairro')}
+                  />
+                  <Input
+                    placeholder='Cidade'
+                    width={276}
+                    error={errors.cidade}
+                    {...register('cidade')}
+                  />
+                  <Input
+                    placeholder='UF'
+                    width={60}
+                    error={errors.uf}
+                    {...register('uf')}
+                  />
                 </FieldWrapper>
               </FormContainer>
             </CoffeCard>
@@ -137,9 +205,7 @@ export function Checkout() {
               total={totalProducts + frete}
             />
 
-            <ButtonConfirm onClick={handleGoSuccess}>
-              Confirmar pedido
-            </ButtonConfirm>
+            <ButtonConfirm onClick={onSubmit}>Confirmar pedido</ButtonConfirm>
           </CoffeCardWrapper>
         </ConfirmRequestContainer>
       </CheckoutWrapper>

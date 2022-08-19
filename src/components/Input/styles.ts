@@ -44,3 +44,16 @@ export const InputContainer = styled.input<InputContainerProps>`
     box-shadow: 0 0 0 0.125rem ${({ theme }) => theme['yellow-dark']};
   }
 `;
+
+export const InputBaseContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+export const ErrorMessage = styled.span`
+  color: red;
+  font-size: 12px;
+
+  font-weight: 800;
+`;
