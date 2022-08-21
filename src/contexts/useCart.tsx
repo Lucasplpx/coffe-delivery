@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useReducer } from 'react';
 
 import { produce } from 'immer';
+import { FormValuesDelivery, OptionPayment } from '../page/Checkout';
 
 interface Product {
   id: string;
@@ -15,11 +16,15 @@ interface Product {
 
 interface CartContextProps {
   products: Product[];
-  amountProducts: number;
   totalProducts: number;
+  amountProducts: number;
+  methodPayment: OptionPayment;
+  deliveryAddress: FormValuesDelivery;
   handleAddProductCart: (id: string) => void;
   handleRemoveProductCart: (id: string) => void;
   handleDeleteProductCart: (id: string) => void;
+  handleAddDeliveryAddress: (addressData: FormValuesDelivery) => void;
+  handleSelectMethodPayment: (method: OptionPayment) => void;
 }
 
 const CartContext = createContext({} as CartContextProps);
@@ -83,8 +88,10 @@ const PRODUCTS_MOCK: Product[] = [
 
 interface CartState {
   products: Product[];
+  deliveryAddress: FormValuesDelivery;
   totalProducts: number;
   amountProducts: number;
+  methodPayment: OptionPayment;
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
@@ -167,6 +174,22 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           });
         }
 
+        case 'ADD_DELIVERY_ADDRESS': {
+          return produce(state, (draft) => {
+            draft.deliveryAddress = action.payload.address;
+
+            return draft;
+          });
+        }
+
+        case 'SELECT_METHOD_PAYMENT': {
+          return produce(state, (draft) => {
+            draft.methodPayment = action.payload.method;
+
+            return draft;
+          });
+        }
+
         default: {
           return state;
         }
@@ -176,10 +199,18 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       products: PRODUCTS_MOCK,
       totalProducts: 0,
       amountProducts: 0,
+      deliveryAddress: {} as FormValuesDelivery,
+      methodPayment: 'money',
     }
   );
 
-  const { products, amountProducts, totalProducts } = cartState;
+  const {
+    products,
+    amountProducts,
+    deliveryAddress,
+    totalProducts,
+    methodPayment,
+  } = cartState;
 
   function handleAddProductCart(id: string) {
     dispatch({
@@ -208,15 +239,37 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     });
   }
 
+  function handleAddDeliveryAddress(addressData: FormValuesDelivery) {
+    dispatch({
+      type: 'ADD_DELIVERY_ADDRESS',
+      payload: {
+        address: addressData,
+      },
+    });
+  }
+
+  function handleSelectMethodPayment(method: OptionPayment) {
+    dispatch({
+      type: 'SELECT_METHOD_PAYMENT',
+      payload: {
+        method,
+      },
+    });
+  }
+
   return (
     <CartContext.Provider
       value={{
         products,
         totalProducts,
+        methodPayment,
         amountProducts,
+        deliveryAddress,
         handleAddProductCart,
         handleRemoveProductCart,
         handleDeleteProductCart,
+        handleAddDeliveryAddress,
+        handleSelectMethodPayment,
       }}
     >
       {children}

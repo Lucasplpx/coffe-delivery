@@ -35,6 +35,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import * as z from 'zod';
+import { useState } from 'react';
 
 const required = 'Campo obrigatório';
 
@@ -48,7 +49,9 @@ const schema = z.object({
   uf: z.string().min(2, 'ex: GO').max(2, 'ex: GO'),
 });
 
-type FormValues = z.infer<typeof schema>;
+export type FormValuesDelivery = z.infer<typeof schema>;
+
+export type OptionPayment = 'money' | 'credit' | 'bank';
 
 export function Checkout() {
   const {
@@ -57,6 +60,8 @@ export function Checkout() {
     handleAddProductCart,
     handleRemoveProductCart,
     handleDeleteProductCart,
+    handleAddDeliveryAddress,
+    handleSelectMethodPayment,
   } = useCart();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -64,9 +69,11 @@ export function Checkout() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<FormValuesDelivery>({
     resolver: zodResolver(schema),
   });
+
+  const [optionPayment, setOptionPayment] = useState<OptionPayment>('bank');
 
   const productsFiltered = products.filter((product) => product.quantity > 0);
 
@@ -77,10 +84,14 @@ export function Checkout() {
   }
 
   const onSubmit = handleSubmit((dataForm) => {
-    console.log(dataForm);
-
+    handleAddDeliveryAddress(dataForm);
+    handleSelectMethodPayment(optionPayment);
     handleGoSuccess();
   });
+
+  function handleSelectOption(option: OptionPayment) {
+    setOptionPayment(option);
+  }
 
   return (
     <CheckoutContainer>
@@ -166,14 +177,23 @@ export function Checkout() {
               <ButtonsContainer>
                 <SelectPayment
                   icon={<CreditCard size={16} color={theme.purple} />}
-                  isSelected
+                  onClick={() => handleSelectOption('credit')}
+                  isSelected={optionPayment === 'credit'}
                 >
                   Cartão de crédito
                 </SelectPayment>
-                <SelectPayment icon={<Bank size={16} color={theme.purple} />}>
+                <SelectPayment
+                  icon={<Bank size={16} color={theme.purple} />}
+                  onClick={() => handleSelectOption('bank')}
+                  isSelected={optionPayment === 'bank'}
+                >
                   Cartão de débito
                 </SelectPayment>
-                <SelectPayment icon={<Money size={16} color={theme.purple} />}>
+                <SelectPayment
+                  icon={<Money size={16} color={theme.purple} />}
+                  onClick={() => handleSelectOption('money')}
+                  isSelected={optionPayment === 'money'}
+                >
                   Dinheiro
                 </SelectPayment>
               </ButtonsContainer>

@@ -2,6 +2,7 @@ import { CurrencyDollar, MapPin, Timer } from 'phosphor-react';
 import { useTheme } from 'styled-components';
 
 import deliverySVG from '../../assets/img/delivery.svg';
+import { useCart } from '../../contexts/useCart';
 
 import {
   DescriptionDelivery,
@@ -15,8 +16,15 @@ import {
   Title,
 } from './styles';
 
+const MessageMethodPayment = {
+  money: 'Dinheiro',
+  credit: 'Cartão de Crédito',
+  bank: 'Cartão de Débito',
+};
+
 export function Success() {
   const theme = useTheme();
+  const { deliveryAddress, methodPayment } = useCart();
 
   return (
     <SuccessContainer>
@@ -33,9 +41,15 @@ export function Success() {
             </IconWrapper>
             <Info>
               <p>
-                Entrega em <span>Rua João Daniel Martinelli, 102</span>
+                Entrega em{' '}
+                <span>
+                  Rua {deliveryAddress.rua}, {deliveryAddress.numero}
+                </span>
               </p>
-              <p>Farrapos - Porto Alegre, RS</p>
+              <p>
+                {deliveryAddress.bairro} - {deliveryAddress.cidade},{' '}
+                {deliveryAddress.uf}
+              </p>
             </Info>
           </ItemInfo>
           <ItemInfo>
@@ -56,7 +70,7 @@ export function Success() {
             <Info>
               <p>Pagamento na entrega</p>
               <p>
-                <span>Cartão de Crédito</span>
+                <span>{MessageMethodPayment[methodPayment]}</span>
               </p>
             </Info>
           </ItemInfo>
