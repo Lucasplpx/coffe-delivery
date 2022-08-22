@@ -57,6 +57,8 @@ export function Checkout() {
   const {
     products,
     totalProducts,
+    methodPayment,
+    deliveryAddress,
     handleAddProductCart,
     handleRemoveProductCart,
     handleDeleteProductCart,
@@ -70,10 +72,12 @@ export function Checkout() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValuesDelivery>({
+    defaultValues: deliveryAddress,
     resolver: zodResolver(schema),
   });
 
-  const [optionPayment, setOptionPayment] = useState<OptionPayment>('bank');
+  const [optionPayment, setOptionPayment] =
+    useState<OptionPayment>(methodPayment);
 
   const productsFiltered = products.filter((product) => product.quantity > 0);
 

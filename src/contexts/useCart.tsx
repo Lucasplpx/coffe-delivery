@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useReducer } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
 
 import { produce } from 'immer';
 import { FormValuesDelivery, OptionPayment } from '../page/Checkout';
@@ -93,6 +99,14 @@ interface CartState {
   amountProducts: number;
   methodPayment: OptionPayment;
 }
+
+const CART_STATE_INIT = {
+  products: PRODUCTS_MOCK,
+  totalProducts: 0,
+  amountProducts: 0,
+  deliveryAddress: {} as FormValuesDelivery,
+  methodPayment: 'money',
+};
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cartState, dispatch] = useReducer(
@@ -195,12 +209,15 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         }
       }
     },
-    {
-      products: PRODUCTS_MOCK,
-      totalProducts: 0,
-      amountProducts: 0,
-      deliveryAddress: {} as FormValuesDelivery,
-      methodPayment: 'money',
+    CART_STATE_INIT,
+    () => {
+      const cartStateStorage = localStorage.getItem('@coffedelivery:v0.0.1');
+
+      if (cartStateStorage) {
+        return JSON.parse(cartStateStorage);
+      }
+
+      return CART_STATE_INIT;
     }
   );
 
@@ -211,6 +228,10 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     totalProducts,
     methodPayment,
   } = cartState;
+
+  useEffect(() => {
+    localStorage.setItem('@coffedelivery:v0.0.1', JSON.stringify(cartState));
+  }, [cartState]);
 
   function handleAddProductCart(id: string) {
     dispatch({
